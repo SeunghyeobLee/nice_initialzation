@@ -1,13 +1,37 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html ng-app>
   <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <link rel="stylesheet" type="text/css" href="github-v2.css">
   </head>
-  <body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+  
+  <style>
+li.L0, li.L1, li.L2, li.L3,li.L5, li.L6, li.L7, li.L8 { list-style-type: decimal !important; }
+</style>
+  <body onload="prettyPrint()">
+    <div>
+      <textarea ng-model="Pasted_Code" placeholder="Paste Your Code" style="width: 500px; height: 800px; display: table-cell; float: left;">
+              </textarea>
+      <pre class="prettyprint linenums" style="float:left;">
+var core = window.core = { };
+
+var log = window.log = function(msg){ 
+	if(console && console.log) console.log(msg); 
+};
+
+var findMatch = function(regex, input) { 
+	return (new RegExp(regex, "g")).test(input); 
+};
+
+core.pwState = {
+	SUCCESS:0,
+	FAIL_LIMIT_OVER:1,
+	FAIL_MIX_WORD:2,
+	FAIL_DUPL_WORD:3,
+	FAIL_SERIAL_WORD:4,
+      </pre>
+    </div>
   </body>
 </html>
