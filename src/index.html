@@ -2,6 +2,9 @@
 <html ng-app>
   <head>
     <meta charset="UTF-8">
+    
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    <script src="jquery-3.1.0.slim.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
     <link rel="stylesheet" type="text/css" href="github-v2.css">
@@ -14,11 +17,21 @@ pre.prettyprint{
     overflow-y: auto;
     max-height: 400px;
 }
-
 </style>
-  <body onload="prettyPrint()">
+
+<script>
+  const {ipcRenderer} = require('electron')
+  $(document).ready(function(){
+    $("textarea.input").on("keyup", function() {
+     console.log("typing");
+     var text = $(this).val();
+     console.log(ipcRenderer.sendSync('synchronous-message', text));
+  });
+  });
+</script>
+  <body>
     <div style="display: flex;">
-      <textarea  placeholder="Paste Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px;"></textarea>
+      <textarea class = "input" placeholder="Paste Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px; padding:10px;"></textarea>
       <pre class="prettyprint linenums" style="width: 50%; height:100%; font-size:0.9em;">
 var core = window.core = { };
 
