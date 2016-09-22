@@ -9,12 +9,17 @@
   
   <style>
 li.L0, li.L1, li.L2, li.L3,li.L5, li.L6, li.L7, li.L8 { list-style-type: decimal !important; }
+pre.prettyprint{
+    width: auto;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
 </style>
   <body onload="prettyPrint()">
-    <div>
-      <textarea ng-model="Pasted_Code" placeholder="Paste Your Code" style="width: 500px; height: 800px; display: table-cell; float: left;">
-              </textarea>
-      <pre class="prettyprint linenums" style="float:left;">
+    <div style="display: flex;">
+      <textarea  placeholder="Paste Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px;"></textarea>
+      <pre class="prettyprint linenums" style="width: 50%; height:100%; font-size:0.9em;">
 var core = window.core = { };
 
 var log = window.log = function(msg){ 
