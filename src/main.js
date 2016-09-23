@@ -61,5 +61,10 @@ ipcMain.on('synchronous-message', (event, arg) => {
   console.log(arg)  // prints "ping"
   event.returnValue = 'pong'
 })
+
+const addon = require('./cpp_addon/build/Release/binding');
+
+console.log(addon.hello()); // 'world'
+
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
