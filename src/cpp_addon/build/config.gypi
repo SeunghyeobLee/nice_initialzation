@@ -55,12 +55,9 @@
     "v8_use_snapshot": "true",
     "want_separate_host_toolset": 0,
     "xcode_version": "8.0",
-    "nodedir": "/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0",
+    "nodedir": "/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1",
     "copy_dev_lib": "true",
     "standalone_static_library": 1,
-    "target": "1.4.0",
-    "runtime": "electron",
-    "build_from_source": "true",
-    "disturl": "https://atom.io/download/atom-shell"
+    "target": "1.4.1"
   }
 }

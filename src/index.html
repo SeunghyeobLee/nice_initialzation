@@ -13,43 +13,77 @@
   <style>
 li.L0, li.L1, li.L2, li.L3,li.L5, li.L6, li.L7, li.L8 { list-style-type: decimal !important; }
 pre.prettyprint{
-    width: auto;
+    
     overflow-y: auto;
     max-height: 400px;
+}
+.smalltab
+{
+    -moz-tab-size: 4;
+    -o-tab-size:   4;
+    tab-size:      4;
 }
 </style>
 
 <script>
   const {ipcRenderer} = require('electron')
+
   $(document).ready(function(){
-    $("textarea.input").on("keyup", function() {
-     console.log("typing");
-     var text = $(this).val();
-     console.log(ipcRenderer.sendSync('synchronous-message', text));
-  });
+    $("textarea.input").on("input propertychange", keyevent = function(){
+
+      $(this).off("input propertychange");
+
+      var text = $(this).val();
+      var result = ipcRenderer.sendSync('synchronous-message', text);
+
+      $("xmp.prettyprint").html(result);
+      $("xmp.prettyprint").removeClass('prettyprinted');
+
+      PR.prettyPrint();
+
+      $(this).on("input propertychange", keyevent);
+    });
+
+    $("textarea").on("keydown", function(e){
+      var keyCode = e.keyCode || e.which;
+      if (keyCode == 9) {  
+        e.preventDefault();
+
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        var $this = $(this);
+        $this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
+        this.selectionStart = this.selectionEnd = start + 1;
+      }else if (keyCode == 13){
+        e.preventDefault();
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        var $this = $(this);
+
+        var str = $this.val().substring(0, start);
+        var arr = str.split("\n");
+        var str = arr[arr.length - 1];
+        var size = str.length;
+        var tab = "";
+        for(var i = 0; i < size;i++){
+          if(str[i] != '\t') break;
+          tab += '\t';
+        }
+        $this.val($this.val().substring(0, start) + '\n' + tab + $this.val().substring(end));
+        this.selectionStart = this.selectionEnd = start + tab.length + 1;
+        //$this.val($this.val().substring(0, start) + '\t' + $this.val().substring(end));
+        //this.selectionStart = this.selectionEnd = start + 1;
+      }
+    });
   });
 </script>
   <body>
     <div style="display: flex;">
-      <textarea class = "input" placeholder="Paste Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px; padding:10px;"></textarea>
-      <pre class="prettyprint linenums" style="width: 50%; height:100%; font-size:0.9em;">
-var core = window.core = { };
-
-var log = window.log = function(msg){ 
-	if(console && console.log) console.log(msg); 
-};
-
-var findMatch = function(regex, input) { 
-	return (new RegExp(regex, "g")).test(input); 
-};
-
-core.pwState = {
-	SUCCESS:0,
-	FAIL_LIMIT_OVER:1,
-	FAIL_MIX_WORD:2,
-	FAIL_DUPL_WORD:3,
-	FAIL_SERIAL_WORD:4,
-      </pre>
+      <textarea class = "input smalltab" placeholder="Paste Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px; padding:10px;
+      font-family: Menlo, Bitstream Vera Sans Mono, DejaVu Sans Mono, Monaco, Consolas, monospace;"></textarea>
+      <?prettify?>
+      <xmp class="prettyprint linenums smalltab" style="width: 50%; height:100%; font-size:0.9em;">
+      </xmp>
     </div>
   </body>
 </html>

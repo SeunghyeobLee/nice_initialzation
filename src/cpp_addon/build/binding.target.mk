@@ -32,10 +32,10 @@ CFLAGS_C_Debug := \
 # Flags passed to only C++ files.
 CFLAGS_CC_Debug := \
 	-std=gnu++0x \
-	-fno-rtti \
 	-fno-exceptions \
 	-fno-threadsafe-statics \
-	-fno-strict-aliasing
+	-std=c++11 \
+	-stdlib=libc++
 
 # Flags passed to only ObjC files.
 CFLAGS_OBJC_Debug :=
@@ -44,10 +44,10 @@ CFLAGS_OBJC_Debug :=
 CFLAGS_OBJCC_Debug :=
 
 INCS_Debug := \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/include/node \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/src \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/deps/uv/include \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/deps/v8/include
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/include/node \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/src \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/deps/uv/include \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/deps/v8/include
 
 DEFS_Release := \
 	'-DNODE_GYP_MODULE_NAME=binding' \
@@ -77,10 +77,10 @@ CFLAGS_C_Release := \
 # Flags passed to only C++ files.
 CFLAGS_CC_Release := \
 	-std=gnu++0x \
-	-fno-rtti \
 	-fno-exceptions \
 	-fno-threadsafe-statics \
-	-fno-strict-aliasing
+	-std=c++11 \
+	-stdlib=libc++
 
 # Flags passed to only ObjC files.
 CFLAGS_OBJC_Release :=
@@ -89,10 +89,10 @@ CFLAGS_OBJC_Release :=
 CFLAGS_OBJCC_Release :=
 
 INCS_Release := \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/include/node \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/src \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/deps/uv/include \
-	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.0/deps/v8/include
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/include/node \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/src \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/deps/uv/include \
+	-I/Users/ace-pc/.electron-gyp/.node-gyp/iojs-1.4.1/deps/v8/include
 
 OBJS := \
 	$(obj).target/$(TARGET)/syntax.o
@@ -124,6 +124,7 @@ $(obj).$(TOOLSET)/$(TARGET)/%.o: $(obj)/%.cc FORCE_DO_CMD
 # End of this set of suffix rules
 ### Rules for final target.
 LDFLAGS_Debug := \
+	-stdlib=libc++ \
 	-undefined dynamic_lookup \
 	-Wl,-no_pie \
 	-Wl,-search_paths_first \
@@ -132,11 +133,13 @@ LDFLAGS_Debug := \
 	-L$(builddir)
 
 LIBTOOLFLAGS_Debug := \
+	-stdlib=libc++ \
 	-undefined dynamic_lookup \
 	-Wl,-no_pie \
 	-Wl,-search_paths_first
 
 LDFLAGS_Release := \
+	-stdlib=libc++ \
 	-undefined dynamic_lookup \
 	-Wl,-no_pie \
 	-Wl,-search_paths_first \
@@ -145,6 +148,7 @@ LDFLAGS_Release := \
 	-L$(builddir)
 
 LIBTOOLFLAGS_Release := \
+	-stdlib=libc++ \
 	-undefined dynamic_lookup \
 	-Wl,-no_pie \
 	-Wl,-search_paths_first

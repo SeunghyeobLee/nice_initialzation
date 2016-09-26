@@ -56,15 +56,16 @@ app.on('activate', () => {
     createWindow()
   }
 })
-const {ipcMain} = require('electron')
-ipcMain.on('synchronous-message', (event, arg) => {
-  console.log(arg)  // prints "ping"
-  event.returnValue = 'pong'
-})
 
+
+const {ipcMain} = require('electron')
 const addon = require('./cpp_addon/build/Release/binding');
 
-console.log(addon.hello()); // 'world'
+ipcMain.on('synchronous-message', (event, arg) => {
+  event.returnValue = addon.standard(arg)
+})
+
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
