@@ -2,7 +2,10 @@
   "targets": [
     {
       "target_name": "binding",
-      "sources":    [ "syntax.cc" ],
+      "sources":    [ "syntax.cc", "engine.cc" ],
+      'include_dirs': [
+        '.',
+      ],
       "conditions": [
         ['OS=="mac"', {
           "xcode_settings": {
