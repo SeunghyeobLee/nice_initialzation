@@ -2,6 +2,7 @@
 #include <vector>
 #include <stack>
 #include <cctype>
+#include <cstdlib>
 
 using namespace std;
 
@@ -9,7 +10,7 @@ using namespace std;
 namespace constant{
 	const string adt = "ADT";
 	const string string = "STRING";
-    const string integer = "INTEGER";
+    const std::string integer = "INTEGER";
 }
 
 // 동적인 트리
@@ -133,6 +134,22 @@ namespace engine {
 		return input.substr(i, j - i + 1);
 	}
 
+    bool is_integer(string input){
+
+        auto it = input.begin();
+        char ch = *it;
+        
+        if(!((ch >= '0' && ch <= '9') || ch == '-' || ch == '+'))
+            return false;
+        
+        
+        for(it++;it != input.end(); it++){
+            if(!(*it >= '0' && *it <= '9')){
+                return false;
+            }
+        }
+        return true;
+    }
     // tree에 string 저장
 	void add_tree(Tree *parent, const string &input, int start, int pos){
 		if(start > pos)
@@ -143,9 +160,16 @@ namespace engine {
 		if(content.length() == 0)
 			return;
 
-		string *substr = new string("\"" + content + "\"");
+        if(is_integer(content)){
+            int p = std::atoi(content.c_str());
+            int *value = new int(p);
 
-		parent->add(substr);
+            parent->add(value);
+        }else {
+		    string *substr = new string("\"" + content + "\"");
+
+		    parent->add(substr);
+        }
 	}
 
     // parsing해서 tree에 저장
@@ -200,12 +224,18 @@ namespace engine {
 
 			if(it->first == constant::adt){
 				output += print_tree((Tree *)(it->second));
-			}else {
+			}else if(it->first == constant::string){
 				string *str = (string *)(it -> second);
 				output += *str;
 
 				delete str;
-			}
+			}else if(it->first == constant::integer){
+                int *integer = (int *)(it -> second);
+
+                output += to_string(*integer);
+
+                delete integer;
+            }
 		}
 
 		delete tree;
