@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html ng-app>
   <head>
@@ -22,6 +23,29 @@ pre.prettyprint{
     -moz-tab-size: 4;
     -o-tab-size:   4;
     tab-size:      4;
+}
+::-webkit-input-placeholder, 
+:-moz-placeholder,
+::-moz-placeholder,
+:-ms-input-placeholder {
+    text-align:center;
+    vertical-align:middle;  
+}
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover,
+label:focus,
+.btn:active,
+.btn.active
+{
+    outline:0px !important;
+    -webkit-appearance:none;
 }
 </style>
 
@@ -77,13 +101,15 @@ pre.prettyprint{
     });
   });
 </script>
-  <body>
+  <body style="background:#f1f1f1;">
     <div style="display: flex;">
-      <textarea class = "input smalltab" placeholder="Type Your Text" style="width: calc(50% - 10px); height: 400px; font-size:0.9em; margin-right: 10px; padding:10px; resize: none;
+      <textarea class = "input smalltab" placeholder="Type Your Text Here"  
+      style="min-width: 400px; height: 400px; border:0px; font-size:0.9em; margin-right: 10px; margin-left:10px; padding:10px 15px 10px 15px; resize: none;
       font-family: Menlo, Bitstream Vera Sans Mono, DejaVu Sans Mono, Monaco, Consolas, monospace;"></textarea>
       <?prettify?>
-      <xmp class="prettyprint linenums smalltab" style="width: 50%; height:100%; font-size:0.9em;">
-      </xmp>
+      <div style = "width: 415px; height: 420px;background: #ffffff; margin-right:10px">
+      <xmp class="prettyprint linenums smalltab" style=" font-size:0.9em;"></xmp>
+      </div>
     </div>
   </body>
 </html>

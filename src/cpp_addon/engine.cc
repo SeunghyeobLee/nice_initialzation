@@ -5,18 +5,24 @@
 
 using namespace std;
 
+// 타입의 이름을 string으로 표현 
 namespace constant{
 	const string adt = "ADT";
 	const string string = "STRING";
+    const string integer = "INTEGER";
 }
 
+// 동적인 트리
+// 타입을 string으로, 값을 void pointer로 저장
 class Tree{
 public:
 	typedef pair<string, void *> value_type;
 	typedef vector<value_type> vect;
 	typedef vect::const_iterator const_iterator;
 	
-
+    inline void add(int* value){
+        data.push_back(value_type( constant::integer, (void *)value));
+    }
 	inline void add(string* value){
 		data.push_back(value_type( constant::string, (void *)value));
 	}
@@ -36,6 +42,7 @@ private:
 	vect data;
 };
 
+// 괄호 연산
 namespace bracket{
 	
 	inline bool is_bracket(char first){
@@ -81,10 +88,13 @@ namespace bracket{
 	}
 
 }
+
+// 계산 파트
 namespace engine {
 
 	Tree *head;
 
+    // 괄호가 잘 닫혀 있는지 확인
 	bool is_matching_parenthesis(string &input){
 		stack<int> st;
 		
@@ -109,6 +119,7 @@ namespace engine {
 		return true;
 	}
 
+    // string의 앞뒤 space 제거
 	string trim(string input){
 		int len = input.length();
 		int i, j;
@@ -122,11 +133,12 @@ namespace engine {
 		return input.substr(i, j - i + 1);
 	}
 
+    // tree에 string 저장
 	void add_tree(Tree *parent, const string &input, int start, int pos){
 		if(start > pos)
 			return;
 
-		string content = input.substr(start, pos - start + 1);//trim(input.substr(start, pos - start + 1));
+		string content = input.substr(start, pos - start + 1);
 
 		if(content.length() == 0)
 			return;
@@ -135,6 +147,9 @@ namespace engine {
 
 		parent->add(substr);
 	}
+
+    // parsing해서 tree에 저장
+    // stack을 이용하여 다중 괄호 처리
 	void stringtotree(string input){
 
 		head = new Tree;	
@@ -157,11 +172,11 @@ namespace engine {
 				level.pop();
 
 				start = pos + 1;
-			}else if(it == ',' || it == ' '){
+			}else if(it == ',' || it == ' ' || it == '\t'){
 				add_tree(level.top(), input, start, pos - 1);
 				start = pos + 1;
 			}
-			else if(it == '\n' || it == '\t'){
+			else if(it == '\n'){
 				add_tree(level.top(), input, start, pos - 1);
 
 				string *str = new string(1, it);
@@ -174,6 +189,7 @@ namespace engine {
 		add_tree(level.top(), input, start, pos - 1);
 	}
 
+    // tree 내용 출력 및 제거
 	string print_tree(const Tree * tree){
 
 		string output = "{ ";
@@ -196,6 +212,7 @@ namespace engine {
 
 		return output + " }";
 	}
+    // main
 	string change_syntax(string input){
 		if(!is_matching_parenthesis(input)){
 			cout << "parenthesis is not matched" << endl;
