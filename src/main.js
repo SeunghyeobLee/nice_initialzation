@@ -61,6 +61,8 @@ app.on('activate', () => {
 const {ipcMain} = require('electron')
 const addon = require('./cpp_addon/build/Release/binding');
 
+
+//c++ 함수 호출
 ipcMain.on('synchronous-message', (event, arg) => {
   result = addon.standard(arg);
   //event.returnValue = addon.standard(arg)
